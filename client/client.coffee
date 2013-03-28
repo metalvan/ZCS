@@ -54,9 +54,18 @@ class ZombieSprite extends Sprite
     @defineAnimation 'attack', 140, 12, 21, true
     @defineAnimation 'die', 140, 22, 27, false
     @defineAnimation 'crit', 140, 28, 35, false
+	
+	
 
+class HeroSprite extends Sprite
+  constructor: ->
+    super '/sprites/skeleton.png', 128, 128
+    @defineAnimation 'stand', 300, 0, 4, true
+    @defineAnimation 'walk', 140, 5, 12, true
+    @defineAnimation 'attack', 100, 13, 20, true
+    @defineAnimation 'die', 140, 21, 27, true
 
-
+	
 class Zone
   constructor: (@sprite) ->
     @canvas = document.createElement 'canvas'
@@ -75,7 +84,7 @@ class Zone
 
 
 
-z = new ZombieSprite
+z = new HeroSprite
 $('#stand').click -> z.playAnimation 'stand'
 $('#walk').click -> z.playAnimation 'walk'
 $('#attack').click -> z.playAnimation 'attack'
@@ -87,5 +96,5 @@ c = $('canvas')[0]
 sprite = new Image()
 sprite.src = '/sprites/map.png'
 sprite.onload = ->
-  z = new Zone sprite
-  z.drawTo c
+  Z = new Zone sprite
+  Z.drawTo c
