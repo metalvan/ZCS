@@ -30,6 +30,26 @@ class Sprite
     }
 
 
+  facingSelect: (direction) ->
+    switch direction
+      when 'left'
+        @container.css backgroundPosition: "0px 0px"
+      when 'downleft'
+        @container.css backgroundPosition: "0px 128px"
+      when 'down'
+        @container.css backgroundPosition: "0px 256px"
+      when 'downright'
+        @container.css backgroundPosition: "0px 384px"
+      when 'right'
+        @container.css backgroundPosition: "0px 512px"
+      when 'upright'
+        @container.css backgroundPosition: "0px 640px" 
+      when 'up'
+        @container.css backgroundPosition: "0px 768px" 
+      when 'upleft'
+        @container.css backgroundPosition: "0px 896px" 
+
+	  
   playAnimation: (name) ->
     clearInterval @interval
     @frame = 0
@@ -41,7 +61,7 @@ class Sprite
           @frame = 0
         else
           clearInterval @interval
-    , @animations[name].speed
+     , @animations[name].speed
 
 
 
@@ -63,7 +83,7 @@ class HeroSprite extends Sprite
     @defineAnimation 'stand', 300, 0, 4, true
     @defineAnimation 'walk', 140, 5, 12, true
     @defineAnimation 'attack', 100, 13, 20, true
-    @defineAnimation 'die', 140, 21, 27, true
+    @defineAnimation 'die', 140, 21, 27, false
 
 	
 class Zone
@@ -84,12 +104,35 @@ class Zone
 
 
 
-z = new HeroSprite
+h = new HeroSprite
+$('#stand').click -> h.playAnimation 'stand'
+$('#walk').click -> h.playAnimation 'walk'
+$('#attack').click -> h.playAnimation 'attack'
+$('#die').click -> h.playAnimation 'die'
+$('#left').click -> h.facingSelect 'left'
+$('#upleft').click -> h.facingSelect 'upleft'
+$('#up').click -> h.facingSelect 'up'
+$('#upright').click -> h.facingSelect 'upright'
+$('#right').click -> h.facingSelect 'right'
+$('#downright').click -> h.facingSelect 'downright'
+$('#down').click -> h.facingSelect 'down'
+$('#downleft').click -> h.facingSelect 'downleft'
+
+
+z = new ZombieSprite
 $('#stand').click -> z.playAnimation 'stand'
 $('#walk').click -> z.playAnimation 'walk'
 $('#attack').click -> z.playAnimation 'attack'
 $('#die').click -> z.playAnimation 'die'
 $('#crit').click -> z.playAnimation 'crit'
+$('#left').click -> z.facingSelect 'left'
+$('#upleft').click -> z.facingSelect 'upleft'
+$('#up').click -> z.facingSelect 'up'
+$('#upright').click -> z.facingSelect 'upright'
+$('#right').click -> z.facingSelect 'right'
+$('#downright').click -> z.facingSelect 'downright'
+$('#down').click -> z.facingSelect 'down'
+$('#downleft').click -> z.facingSelect 'downleft'
 
 c = $('canvas')[0]
 
