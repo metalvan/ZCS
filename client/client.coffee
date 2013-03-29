@@ -101,11 +101,20 @@ class Zone
 
 z = new ZombieSprite
 z.direction = 'downright'
+z.playAnimation 'stand'
 $('#stand').click -> z.playAnimation 'stand'
 $('#walk').click -> z.playAnimation 'walk'
 $('#attack').click -> z.playAnimation 'attack'
 $('#die').click -> z.playAnimation 'die'
 $('#crit').click -> z.playAnimation 'crit'
+$('#left').click -> z.direction = 'left'
+$('#upleft').click -> z.direction = 'upleft'
+$('#up').click -> z.direction = 'up'
+$('#upright').click -> z.direction = 'upright'
+$('#right').click -> z.direction = 'right'
+$('#downright').click -> z.direction = 'downright'
+$('#down').click -> z.direction = 'down'
+$('#downleft').click -> z.direction = 'downleft'
 
 
 c = $('canvas')[0]

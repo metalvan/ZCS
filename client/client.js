@@ -146,6 +146,8 @@ z = new ZombieSprite;
 
 z.direction = 'downright';
 
+z.playAnimation('stand');
+
 $('#stand').click(function() {
   return z.playAnimation('stand');
 });
@@ -164,6 +166,38 @@ $('#die').click(function() {
 
 $('#crit').click(function() {
   return z.playAnimation('crit');
+});
+
+$('#left').click(function() {
+  return z.direction = 'left';
+});
+
+$('#upleft').click(function() {
+  return z.direction = 'upleft';
+});
+
+$('#up').click(function() {
+  return z.direction = 'up';
+});
+
+$('#upright').click(function() {
+  return z.direction = 'upright';
+});
+
+$('#right').click(function() {
+  return z.direction = 'right';
+});
+
+$('#downright').click(function() {
+  return z.direction = 'downright';
+});
+
+$('#down').click(function() {
+  return z.direction = 'down';
+});
+
+$('#downleft').click(function() {
+  return z.direction = 'downleft';
 });
 
 c = $('canvas')[0];
