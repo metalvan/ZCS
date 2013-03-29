@@ -116,6 +116,22 @@ $('#downright').click -> z.direction = 'downright'
 $('#down').click -> z.direction = 'down'
 $('#downleft').click -> z.direction = 'downleft'
 
+h = new HeroSprite
+h.direction = 'downright'
+h.playAnimation 'stand'
+$('#stand').click -> h.playAnimation 'stand'
+$('#walk').click -> h.playAnimation 'walk'
+$('#attack').click -> h.playAnimation 'attack'
+$('#die').click -> h.playAnimation 'die'
+$('#crit').click -> h.playAnimation 'crit'
+$('#left').click -> h.direction = 'left'
+$('#upleft').click -> h.direction = 'upleft'
+$('#up').click -> h.direction = 'up'
+$('#upright').click -> h.direction = 'upright'
+$('#right').click -> h.direction = 'right'
+$('#downright').click -> h.direction = 'downright'
+$('#down').click -> h.direction = 'down'
+$('#downleft').click -> h.direction = 'downleft'
 
 c = $('canvas')[0]
 
