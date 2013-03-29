@@ -1,0 +1,22 @@
+OK think through this
+
+A class of psrite has a set of animations
+
+An object in that class has, at any one time, a current animation
+
+z = new ZombieObject
+  this.currentAnimation: 'stand'
+  this.currentFacing 
+
+move = function(x)
+  this.currentAnimation: 'walk'
+  this.facing: some function of x
+
+So my question is that how do we update each of these properties of an object and have those update what the sprite is doing.
+ 
+So is there a way, ok so an object needs to hold the direction that it's faing. So that HAS to be a property of the object.
+
+Unless it holds which animation its doing... so in that case...
+
+No that doesn't make sense. It needs to have an animation and a facing. Each sprite needs to have its own facing... but it needs to hold both of those properties but they get compiled into a single thing.
+

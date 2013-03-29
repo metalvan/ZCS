@@ -29,32 +29,11 @@ class Sprite
       frames: arr
     }
 
-
-  facingSelect: (direction) ->
-    switch direction
-      when 'left'
-        @container.css backgroundPosition: "0px 0px"
-      when 'downleft'
-        @container.css backgroundPosition: "0px 128px"
-      when 'down'
-        @container.css backgroundPosition: "0px 256px"
-      when 'downright'
-        @container.css backgroundPosition: "0px 384px"
-      when 'right'
-        @container.css backgroundPosition: "0px 512px"
-      when 'upright'
-        @container.css backgroundPosition: "0px 640px" 
-      when 'up'
-        @container.css backgroundPosition: "0px 768px" 
-      when 'upleft'
-        @container.css backgroundPosition: "0px 896px" 
-
-	  
   playAnimation: (name) ->
     clearInterval @interval
     @frame = 0
     @interval = setInterval =>
-      @container.css backgroundPosition: "#{-@animations[name].frames[@frame]}px 0px"
+      @container.css backgroundPosition: "#{-@animations[name].frames[@frame]}px #{@evaluateFacing(@direction)}px"
       @frame++
       if @frame >= @animations[name].frames.length
         if @animations[name].loops
@@ -63,7 +42,24 @@ class Sprite
           clearInterval @interval
      , @animations[name].speed
 
-
+  evaluateFacing: (direction) ->
+    switch direction
+      when 'left'
+        return 0
+      when 'downleft'
+        return 128
+      when 'down'
+        return 256
+      when 'downright'
+        return 384
+      when 'right'
+        return 512
+      when 'upright'
+        return 640
+      when 'up'
+        return 768
+      when 'upleft'
+        return 896
 
 
 class ZombieSprite extends Sprite
@@ -74,8 +70,8 @@ class ZombieSprite extends Sprite
     @defineAnimation 'attack', 140, 12, 21, true
     @defineAnimation 'die', 140, 22, 27, false
     @defineAnimation 'crit', 140, 28, 35, false
-	
-	
+
+
 
 class HeroSprite extends Sprite
   constructor: ->
@@ -85,7 +81,7 @@ class HeroSprite extends Sprite
     @defineAnimation 'attack', 100, 13, 20, true
     @defineAnimation 'die', 140, 21, 27, false
 
-	
+
 class Zone
   constructor: (@sprite) ->
     @canvas = document.createElement 'canvas'
@@ -103,36 +99,14 @@ class Zone
     viewCanvas.getContext('2d').drawImage(@canvas, 0, 0)
 
 
-
-h = new HeroSprite
-$('#stand').click -> h.playAnimation 'stand'
-$('#walk').click -> h.playAnimation 'walk'
-$('#attack').click -> h.playAnimation 'attack'
-$('#die').click -> h.playAnimation 'die'
-$('#left').click -> h.facingSelect 'left'
-$('#upleft').click -> h.facingSelect 'upleft'
-$('#up').click -> h.facingSelect 'up'
-$('#upright').click -> h.facingSelect 'upright'
-$('#right').click -> h.facingSelect 'right'
-$('#downright').click -> h.facingSelect 'downright'
-$('#down').click -> h.facingSelect 'down'
-$('#downleft').click -> h.facingSelect 'downleft'
-
-
 z = new ZombieSprite
+z.direction = 'downright'
 $('#stand').click -> z.playAnimation 'stand'
 $('#walk').click -> z.playAnimation 'walk'
 $('#attack').click -> z.playAnimation 'attack'
 $('#die').click -> z.playAnimation 'die'
 $('#crit').click -> z.playAnimation 'crit'
-$('#left').click -> z.facingSelect 'left'
-$('#upleft').click -> z.facingSelect 'upleft'
-$('#up').click -> z.facingSelect 'up'
-$('#upright').click -> z.facingSelect 'upright'
-$('#right').click -> z.facingSelect 'right'
-$('#downright').click -> z.facingSelect 'downright'
-$('#down').click -> z.facingSelect 'down'
-$('#downleft').click -> z.facingSelect 'downleft'
+
 
 c = $('canvas')[0]
 
