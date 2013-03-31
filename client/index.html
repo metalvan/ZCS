@@ -6,21 +6,25 @@
   <style>
     body {
     }
-    div {
+    #game {
       position: relative;
-      margin: 200px auto;
+      width: 800px;
+      height: 600px;
+    }
+    #actors {
+      position: absolute;
+      width: 100%;
+      height: 100%;
     }
     canvas {
+      position: absolute;
       background: #ccc;
     }
   </style>
 </head>
 <body>
-  <a href='#' id="stand">Stand</a>
-  <a href='#' id="walk">Walk</a>
-  <a href='#' id="attack">Attack</a>
-  <a href='#' id="die">Die</a>
-  <a href='#' id="crit">Die Crit</a>
-
-  <canvas width="800" height="600"></canvas>
+  <div id="game">
+    <canvas width="800" height="600"></canvas>
+    <div id="actors"></div>
+  </div>
 </body>

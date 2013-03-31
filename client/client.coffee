@@ -1,9 +1,58 @@
 socket = io.connect(window.location.origin)
 
+socket.on 'connection', ->
+  console.log 'connected'
+
+socket.on 'zone', (data) ->
+  for actor in data.actors
+    a = Actor.getActor actor.id
+    a.moveTo Math.round(actor.x), Math.round(actor.y)
 
 
-class Zombie
+
+class Actor
+  @actors: {}
+
+  @getActor: (id, data) ->
+    return Actor.actors[id] if Actor.actors[id]
+    return Actor.actors[id] = new Zombie id
+
+  constructor: (@id) ->
+    Actor.actors[@id] = @
+    @x = 0
+    @y = 0
+
+  moveTo: (x, y) ->
+    @sprite.container.css
+      top: y
+      left: x
+    if x > @x and y > @y
+      direction = 5
+    else if x < @x - 3 and y > @y + 3
+      direction = 7
+    else if x > @x + 3 and y < @y - 3
+      direction = 3
+    else if x < @x - 3 and y < @y - 3
+      direction = 1
+    else if x < @x
+      direction = 0
+    else if x > @x
+      direction = 4
+    else if y > @x
+      direction = 6
+    else if y < @x
+      direction = 2
+    console.log direction
+    @sprite.direction = direction
+    @x = x
+    @y = y
+
+
+class Zombie extends Actor
   constructor: ->
+    super
+    @sprite = new ZombieSprite
+    @sprite.playAnimation 'walk'
 
 
 
@@ -12,10 +61,12 @@ class Sprite
     @animations = {}
 
     @container = $('<div></div>').css
+      position: 'absolute'
       width: @width
       height: @height
       backgroundImage: "url(#{@spriteSheet})"
-    @container.appendTo 'body'
+    @container.appendTo '#actors'
+    @direction = 0
 
 
   defineAnimation: (name, speed, start, end, loops) ->
@@ -34,7 +85,7 @@ class Sprite
     clearInterval @interval
     @frame = 0
     @interval = setInterval =>
-      @container.css backgroundPosition: "#{-@animations[name].frames[@frame]}px 0px"
+      @container.css backgroundPosition: "#{-@animations[name].frames[@frame]}px #{-@height*@direction}px"
       @frame++
       if @frame >= @animations[name].frames.length
         if @animations[name].loops
@@ -75,15 +126,14 @@ class Zone
 
 
 
-z = new ZombieSprite
-$('#stand').click -> z.playAnimation 'stand'
-$('#walk').click -> z.playAnimation 'walk'
-$('#attack').click -> z.playAnimation 'attack'
-$('#die').click -> z.playAnimation 'die'
-$('#crit').click -> z.playAnimation 'crit'
-
+# z = new ZombieSprite
+# $('#stand').click -> z.playAnimation 'stand'
+# $('#walk').click -> z.playAnimation 'walk'
+# $('#attack').click -> z.playAnimation 'attack'
+# $('#die').click -> z.playAnimation 'die'
+# $('#crit').click -> z.playAnimation 'crit'
+# 
 c = $('canvas')[0]
-
 sprite = new Image()
 sprite.src = '/sprites/map.png'
 sprite.onload = ->
