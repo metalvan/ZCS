@@ -28,7 +28,7 @@ class Actor
     @sprite.container.css
       top: Math.round y
       left: Math.round x
-      zIndex: y
+      zIndex: Math.round y
     if x > @x and y > @y
       direction = 5
     else if x < @x - 3 and y > @y + 3
