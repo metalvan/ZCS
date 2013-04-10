@@ -5,8 +5,8 @@ socket.on 'connection', ->
 
 socket.on 'zone', (data) ->
   for actor in data.actors
-    a = Actor.getActor actor.id
-    a.moveTo Math.round(actor.x), Math.round(actor.y)
+    a = Actor.getActor actor.id, actor
+    a.moveTo actor.x, actor.y
 
 
 
@@ -15,6 +15,8 @@ class Actor
 
   @getActor: (id, data) ->
     return Actor.actors[id] if Actor.actors[id]
+    if data.type is 'player'
+      return Actor.actors[id] = new Player id
     return Actor.actors[id] = new Zombie id
 
   constructor: (@id) ->
@@ -24,8 +26,9 @@ class Actor
 
   moveTo: (x, y) ->
     @sprite.container.css
-      top: y
-      left: x
+      top: Math.round y
+      left: Math.round x
+      zIndex: y
     if x > @x and y > @y
       direction = 5
     else if x < @x - 3 and y > @y + 3
@@ -34,15 +37,14 @@ class Actor
       direction = 3
     else if x < @x - 3 and y < @y - 3
       direction = 1
-    else if x < @x
+    else if x < @x - 1
       direction = 0
-    else if x > @x
+    else if x > @x + 1
       direction = 4
-    else if y > @x
+    else if y > @y
       direction = 6
-    else if y < @x
+    else if y < @y
       direction = 2
-    console.log direction
     @sprite.direction = direction
     @x = x
     @y = y
@@ -52,6 +54,12 @@ class Zombie extends Actor
   constructor: ->
     super
     @sprite = new ZombieSprite
+    @sprite.playAnimation 'walk'
+
+class Player extends Actor
+  constructor: ->
+    super
+    @sprite = new HeroSprite
     @sprite.playAnimation 'walk'
 
 
@@ -131,41 +139,15 @@ class Zone
     viewCanvas.getContext('2d').drawImage(@canvas, 0, 0)
 
 
-z = new ZombieSprite
-z.direction = 'downright'
-z.playAnimation 'stand'
-$('#stand').click -> z.playAnimation 'stand'
-$('#walk').click -> z.playAnimation 'walk'
-$('#attack').click -> z.playAnimation 'attack'
-$('#die').click -> z.playAnimation 'die'
-$('#crit').click -> z.playAnimation 'crit'
-$('#left').click -> z.direction = 'left'
-$('#upleft').click -> z.direction = 'upleft'
-$('#up').click -> z.direction = 'up'
-$('#upright').click -> z.direction = 'upright'
-$('#right').click -> z.direction = 'right'
-$('#downright').click -> z.direction = 'downright'
-$('#down').click -> z.direction = 'down'
-$('#downleft').click -> z.direction = 'downleft'
-
-h = new HeroSprite
-h.direction = 'downright'
-h.playAnimation 'stand'
-$('#stand').click -> h.playAnimation 'stand'
-$('#walk').click -> h.playAnimation 'walk'
-$('#attack').click -> h.playAnimation 'attack'
-$('#die').click -> h.playAnimation 'die'
-$('#crit').click -> h.playAnimation 'crit'
-$('#left').click -> h.direction = 'left'
-$('#upleft').click -> h.direction = 'upleft'
-$('#up').click -> h.direction = 'up'
-$('#upright').click -> h.direction = 'upright'
-$('#right').click -> h.direction = 'right'
-$('#downright').click -> h.direction = 'downright'
-$('#down').click -> h.direction = 'down'
-$('#downleft').click -> h.direction = 'downleft'
-
-
+# z = new ZombieSprite
+# z.direction = 'downright'
+# z.playAnimation 'stand'
+# 
+# h = new HeroSprite
+# h.direction = 'downright'
+# h.playAnimation 'stand'
+# 
+# 
 c = $('canvas')[0]
 sprite = new Image()
 sprite.src = '/sprites/map.png'
