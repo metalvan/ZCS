@@ -128,17 +128,17 @@ zone = new Zone
 zombies = 0
 
 z = zone.addActor new Zombie false
-z.x = 0
-z.y = 0
+z.x = -10
+z.y = -10
 z = zone.addActor new Zombie false
-z.x = 700
-z.y = 0
+z.x = 710
+z.y = -10
 z = zone.addActor new Zombie false
-z.x = 0
-z.y = 500
+z.x = -10
+z.y = 510
 z = zone.addActor new Zombie false
-z.x = 700
-z.y = 500
+z.x = 710
+z.y = 510
 
 setInterval ->
   return if zombies > 17
